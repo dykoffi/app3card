@@ -1,0 +1,15 @@
+<div class="col-12">
+    <div class="row d-flex justify-content-center p-3">
+        <% options.forEach(o=>{ %>
+        <div class="col-3">
+            <%- include("../components/cardoption",{
+                icon : o.icon,
+                titre : o.titre,
+                details : o.details,
+                lien : o.lien,
+                couleur : o.couleur
+            }) -%>
+        </div>
+        <% }) %>
+    </div>
+</div>

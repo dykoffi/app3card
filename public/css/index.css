@@ -1,0 +1,63 @@
+
+@charset 'utf-8';
+h3{
+font-family: Arial, Helvetica, sans-serif
+}
+
+#baniere{
+    height: 50vh;
+    margin-top: 25vh;
+    margin-bottom: 25vh;
+    padding: 1cm;
+}
+#video{
+    height: 50vh;
+    margin-top: 25vh;
+    margin-bottom: 25vh;
+    
+}
+.large{
+    height: 100vh;
+}
+
+#information{
+}
+
+body{
+    background-attachment: fixed;
+    overflow-x: hidden;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-image: url('/images/fond1.jpg');
+    background-blend-mode: multiply;
+}
+#ban{
+    height: 50vh;
+}
+
+#illustration{
+    background-image: url('/images/fond2.jpg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 10cm;
+}
+#illustration div{
+margin-top: 6cm;
+}
+
+.card img{
+}
+
+#information{
+    clip-path: circle(105% at 30% -85%);
+}
+
+#prix{
+    clip-path: circle(110% at 40% 195%);
+}
+#inscription{
+}
+
+.card{
+}

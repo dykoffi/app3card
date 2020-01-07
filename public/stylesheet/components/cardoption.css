@@ -1,0 +1,8 @@
+.cardoption > div{
+    box-shadow: 1px 1px 10px rgba(126, 126, 126, 0.082);
+    border-radius: 10px;
+}
+
+.cardoption{
+    padding: 0.5cm;
+}
