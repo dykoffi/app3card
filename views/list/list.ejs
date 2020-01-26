@@ -1,0 +1,16 @@
+<div class="col-12 d-flex justify-content-center">
+    <% list.forEach(l => { %>
+    <div class="p-5 col-5 ">
+        <%- include("../components/cardElecteur",{
+            photoElecteur : l.photoElecteur,
+            nomElecteur : l.nomElecteur,
+            prenomsElecteur : l.prenomsElecteur,
+            datenaissanceElecteur : l.datenaissanceElecteur,
+            lieunaissanceElecteur : l.lieunaissanceElecteur,
+            domicileElecteur : l.domicileElecteur,
+            professionElecteur : l.professionElecteur,
+            contactElecteur : l.contactElecteur
+        }) -%>
+    </div>
+    <% }) %>
+</div>

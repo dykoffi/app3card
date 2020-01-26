@@ -1,6 +1,6 @@
 $('input[type="file"]').dropify()
 
-
+var an = 31536000000
 function remplacer(chaine, oldCar, newCar) {
     while (chaine.search(oldCar) != -1) {
         chaine = chaine.replace(oldCar, newCar)
@@ -9,26 +9,32 @@ function remplacer(chaine, oldCar, newCar) {
 }
 
 function sendData() {
-    var id = (new Date()).getTime()
-    var nom = $("#nom").val()
-    var prenoms = $("#prenoms").val()
-    var sexe = $("#sexe").val()
-    var lieunaissance = $("#lieunaissance").val()
-    var datenaissance = $("#datenaissance").val()
-    var domicile = $("#domicile").val()
-    var contact = $("#contact").val()
+    let agev = new Date($("#datenaissance").val())
+    let anact = new Date()
 
-    var profession = $("#profession").val()
-    var photo = remplacer(remplacer(remplacer($("#photo").val(), " ", "_"), "-", "_"), "–", "_").substr(12)
-    var carte = $("#carte").val()
-    var tab = [id, nom, prenoms, sexe, datenaissance, lieunaissance, domicile, profession, contact, photo, carte]
-    socket.emit("addcard", tab)
+    if (anact - agev >= an * 18) {
+        var id = (new Date()).getTime()
+        var nom = $("#nom").val()
+        var prenoms = $("#prenoms").val()
+        var sexe = $("#sexe").val()
+        var lieunaissance = $("#lieunaissance").val()
+        var datenaissance = $("#datenaissance").val()
+        var domicile = $("#domicile").val()
+        var contact = $("#contact").val()
+
+        var profession = $("#profession").val()
+        var photo = remplacer(remplacer(remplacer($("#photo").val(), " ", "_"), "-", "_"), "–", "_").substr(12)
+        var carte = $("#carte").val()
+        var tab = [id, nom, prenoms, sexe, datenaissance, lieunaissance, domicile, profession, contact, photo, carte]
+        socket.emit("addcard", tab)
+    }else{
+        $("#ageerror").modal("show")
+    }
 }
 
 $("#sendData").click(() => {
     sendData()
 })
-
 socket.on("addok", () => {
     $("#form").submit()
 })
@@ -37,7 +43,7 @@ socket.on("nodevice", () => {
     $("#devicemsg")
         .addClass("red-text font-weight-bold")
         .removeClass("green-text")
-        .text("veuillez brancher l'appareil puis recharger la page")
+        .text("veuillez brancher l'appareil")
     $("#iconcard")
         .removeClass("green-text")
         .addClass("red-text")
@@ -52,6 +58,7 @@ socket.on("device", () => {
         .removeClass("red-text")
         .addClass("green-text")
 })
+
 //les carte
 socket.on("card", (data) => {
     $("#carte").val(data)

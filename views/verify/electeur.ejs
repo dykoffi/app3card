@@ -1,0 +1,16 @@
+<div class="col-12 d-flex justify-content-center">
+    <% electeur.forEach(e => { %>
+    <div class="p-5 col-5 ">
+        <%- include("../components/cardElecteur",{
+            photoElecteur : e.photoElecteur,
+            nomElecteur : e.nomElecteur,
+            prenomsElecteur : e.prenomsElecteur,
+            datenaissanceElecteur : e.datenaissanceElecteur,
+            lieunaissanceElecteur : e.lieunaissanceElecteur,
+            domicileElecteur : e.domicileElecteur,
+            professionElecteur : e.professionElecteur,
+            contactElecteur : e.contactElecteur
+        }) -%>
+    </div>
+    <% }) %>
+</div>

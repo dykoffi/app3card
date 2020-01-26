@@ -24,7 +24,9 @@
     "mysql": "^2.16.0",
     "nodemailer": "^6.1.1",
     "nodemon": "^1.19.1",
-    "socket.io": "^2.2.0"
+    "serialport": "^8.0.6",
+    "socket.io": "^2.2.0",
+    "usb": "^1.6.2"
   },
   "main": "app.js",
   "devDependencies": {},

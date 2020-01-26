@@ -23,13 +23,24 @@ const con = mysql.createConnection({
     host: 'localhost',
     user: 'dy',
     password: '1234',
-    database: 'xwork'
+    database: 'election'
 
 })
 
 router.get('/', function (req, res, next) {
     res.render('accueil/index', { title: 'Accueil', options : options, host: req.hostname });
 });
+router.get('/list', function (req, res, next) {
+    con.connect(() => {
+        let sql = "SELECT *FROM Electeurs"
+        con.query(sql, (err, result, field) => {
+            console.log(result);
+            
+            res.render('list/index', { title: 'List',host: req.hostname, list:result });
+        })
+    }) 
+});
+
 router.get('/regist', function (req, res, next) {
     res.render('regist/index', { title: 'Enregistrer',host: req.hostname });
 });
@@ -53,6 +64,20 @@ router.post('/regist/add', (req, res, next) => {
     form.parse(req,(err, fields, file)=>{
         res.redirect("/regist")
     });
+})
+
+router.get("/verify/:carteElecteur",(req,res,next)=>{
+    let carteElecteur = req.params.carteElecteur
+    con.connect(() => {
+        let sql = "SELECT *FROM Electeurs WHERE carteElecteur = ?"
+        con.query(sql,[carteElecteur], (err, result, field) => {
+            res.render('verify/verify', { title: 'Verify',host: req.hostname, electeur:result });
+        })
+    }) 
+})
+
+router.get("/verify",(req,res,next)=>{
+    res.render('verify/index', { title: 'Verify',host: req.hostname });
 })
 
 module.exports = router;

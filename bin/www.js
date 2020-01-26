@@ -75,11 +75,9 @@ function onError(error) {
             throw error;
     }
 }
-
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening() {
     var addr = server.address();
     var bind = typeof addr === 'string' ?
@@ -99,19 +97,17 @@ console.log("start on port " + port)
 /**
  * function pour voir la liste des ports actifs
  */
+
 async function listport(serial) {
     return serial.list()
 }
 
 var sp
+var usb = require("usb")
 var serial = require("serialport")
-
 var io = require("socket.io").listen(server)
 io.sockets.on("connection", function (socket, pseudo) {
-   
     console.log("un user c'est connecte")
-
-
     socket.on("addcard", (tab) => {
         con.connect(() => {
             let sql = "INSERT INTO Electeurs VALUES(?,?,?,?,?,?,?,?,?,?,?)"
@@ -123,13 +119,19 @@ io.sockets.on("connection", function (socket, pseudo) {
         })
     })
 
+    usb.on("attach",()=>{
+        io.emit("device")
+    })
+    usb.on("detach",()=>{
+        io.emit("nodevice")
+    })
     //serial port
     if (!(sp instanceof serial)) {
         serial.list()
             .then(ports => {
                 ports.forEach(p => {
                     if (p.pnpId)
-                        sp = new serial(p.comName, {
+                        sp = new serial(p.path, {
                             baudRate: 115200
                         })
                 });
@@ -150,10 +152,8 @@ io.sockets.on("connection", function (socket, pseudo) {
                             con.query(sql, [data.toString()], (err, result, field) => {
                                 if (result.length > 0) {
                                     console.log("appel");
-
                                     sp.write("cardexist" + 'E')
-                                    io.emit("cardexist")
-
+                                    io.emit("cardexist",data.toString())
                                 } else {
                                     sp.write("cardok" + 'E')
                                     io.emit("card", data.toString())
@@ -172,7 +172,5 @@ io.sockets.on("connection", function (socket, pseudo) {
         console.log(sp);
         io.emit("device")
     }
-
 })
-
 module.exports = io
