@@ -1,5 +1,7 @@
 drop database if exists election;
+
 create database if not exists election character set 'utf8';
+
 use election;
 
 CREATE TABLE Electeurs(
@@ -13,7 +15,18 @@ CREATE TABLE Electeurs(
   professionElecteur VARCHAR(200),
   contactElecteur VARCHAR(200),
   photoElecteur VARCHAR(200),
-  carteElecteur VARCHAR(200)
+  carteElecteur VARCHAR(200),
+  statusVote VARCHAR(20)
+) Engine = InnoDB;
 
-)Engine=InnoDB;
+CREATE TABLE Votes(
+  idVote int(11) primary key not null auto_increment,
+  voteCandidat VARCHAR(255)
+) Engine = InnoDB;
 
+CREATE TABLE Candidats(
+  idCandidat VARCHAR(200),
+  nomCandidat VARCHAR(200),
+  partiCandidat VARCHAR(200),
+  photoCandidat VARCHAR(255)
+) Engine = InnoDB;

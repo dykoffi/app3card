@@ -1,3 +1,3 @@
-setTimeout(() => {
+socket.on("voteFinnish",()=>{
     window.location = "/verify"
-}, 10000);
+})

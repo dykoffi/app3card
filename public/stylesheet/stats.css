@@ -1,0 +1,19 @@
+.carte{
+    background-color: black;
+    height: 500px;
+    background-attachment: fixed;
+    background-image: url("/images/carte.gif");
+}
+
+#temps{
+    position: absolute;
+    bottom: 0px;
+}
+
+#point{
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    left: 16cm;
+    top: 21cm;
+}

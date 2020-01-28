@@ -110,13 +110,30 @@ io.sockets.on("connection", function (socket, pseudo) {
     console.log("un user c'est connecte")
     socket.on("addcard", (tab) => {
         con.connect(() => {
-            let sql = "INSERT INTO Electeurs VALUES(?,?,?,?,?,?,?,?,?,?,?)"
+            let sql = "INSERT INTO Electeurs VALUES(?,?,?,?,?,?,?,?,?,?,?,?)"
             con.query(sql, tab, (err, result, field) => {
                 if (result) {
                     socket.emit("addok")
                 }
             })
         })
+    })
+    socket.on("voteStart",(idElecteur)=>{
+        socket.broadcast.emit("voteStart", idElecteur)
+    })
+
+    socket.on("voteFinnish",(idCandidat,carteElecteur)=>{
+        con.connect(() => {
+            let sql = "INSERT INTO Votes(voteCandidat) VALUES(?)"
+            con.query(sql, [idCandidat], (err, result, field) => {
+                con.connect(() => {
+                    let sql = "UPDATE Electeurs SET statusVote = 'oui' WHERE carteElecteur = ?"
+                    con.query(sql, [carteElecteur], (err, result, field) => {
+                        socket.broadcast.emit("voteFinnish")
+                    })
+                })
+            })
+        }) 
     })
 
     usb.on("attach",()=>{
@@ -154,6 +171,7 @@ io.sockets.on("connection", function (socket, pseudo) {
                                     console.log("appel");
                                     sp.write("cardexist" + 'E')
                                     io.emit("cardexist",data.toString())
+                                    
                                 } else {
                                     sp.write("cardok" + 'E')
                                     io.emit("card", data.toString())

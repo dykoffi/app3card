@@ -1,0 +1,28 @@
+<div class="col-12 d-flex justify-content-center align-items-center bienvenue p-5">
+    <div class="row">
+        <div class="candidats col-12">
+            <div class="row d-flex justify-content-center">
+                <% candidats.forEach((c)=>{ %>
+
+                <div class="candidat white col-2 m-5" onclick="voteFinnish('<%= c.idCandidat %>')"
+                    style="background-image: url('/images/candidats/<%= c.photoCandidat %>');">
+                    <div class="row">
+                        <div class="col-12 infos d-flex justify-content-center align-items-center">
+                            <h3 class="nom white-text lead"><%= c.nomCandidat %></h3>
+                        </div>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+
+        </div>
+
+        <div class="text-center col-12">
+            <h1 class="white-text">Election présidentielle 2020 proposée par la CEI et l'équipe CGEC</h1>
+            <img src="/images/cei.png" class=" ml-3" alt="">
+            <img src="/images/favicon.png" class="" alt="">
+        </div>
+    </div>
+    <input type="hidden" id="idElecteur" value="">
+
+</div>

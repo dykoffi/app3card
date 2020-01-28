@@ -1,0 +1,16 @@
+.candidat{
+    height: 350px;
+    background-position: 0 0;
+    background-size: cover;
+}
+
+.candidat .infos{
+    height: 80px;
+    background-color: rgba(0, 0, 0, 0.781);
+    position: absolute;
+    bottom: 0px;
+}
+
+*{
+    transition: all 0.7s ease;
+}

@@ -21,7 +21,6 @@ socket.on("device", () => {
 
 //les carte
 socket.on("card", (data) => {
-    $("#modal").modal("hide")
     $("#cardexist").modal("show")
     setTimeout(() => {
         $("#cardexist").modal("hide")
@@ -29,5 +28,6 @@ socket.on("card", (data) => {
 })
 
 socket.on("cardexist", (data) => {
-   window.location = `/verify/${data}`
+    socket.emit("voteStart", data)
+    window.location = `/verify/${data}`
 })

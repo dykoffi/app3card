@@ -80,4 +80,22 @@ router.get("/verify",(req,res,next)=>{
     res.render('verify/index', { title: 'Verify',host: req.hostname });
 })
 
+router.get("/vote",(req,res,next)=>{
+    con.connect(() => {
+        let sql = "SELECT *FROM Candidats"
+        con.query(sql, (err, result, field) => {
+            res.render('vote/index', { title: 'Vote',host: req.hostname, candidats : result });
+        })
+    }) 
+})
+
+router.get("/stats",(req,res,next)=>{
+    con.connect(() => {
+        let sql = "SELECT *FROM Electeurs WHERE statusVote='oui'"
+        con.query(sql, (err, result, field) => {
+            res.render('statistiques/index', { title: 'Stats',host: req.hostname, votes : result.length });
+        })
+    }) 
+})
+
 module.exports = router;

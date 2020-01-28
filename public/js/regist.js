@@ -25,7 +25,7 @@ function sendData() {
         var profession = $("#profession").val()
         var photo = remplacer(remplacer(remplacer($("#photo").val(), " ", "_"), "-", "_"), "–", "_").substr(12)
         var carte = $("#carte").val()
-        var tab = [id, nom, prenoms, sexe, datenaissance, lieunaissance, domicile, profession, contact, photo, carte]
+        var tab = [id, nom, prenoms, sexe, datenaissance, lieunaissance, domicile, profession, contact, photo, carte,"non"]
         socket.emit("addcard", tab)
     }else{
         $("#ageerror").modal("show")
