@@ -28,6 +28,5 @@ socket.on("card", (data) => {
 })
 
 socket.on("cardexist", (data) => {
-    socket.emit("voteStart", data)
     window.location = `/verify/${data}`
 })

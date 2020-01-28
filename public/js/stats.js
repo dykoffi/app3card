@@ -22,5 +22,6 @@ setInterval(() => {
 }, 100);
 
 socket.on("voteFinnish",()=>{
-    $("#nbVotants").text(parseInt( $("#nbVotants").text())+1)
+    window.location.reload()
 })
+

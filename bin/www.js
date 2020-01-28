@@ -118,28 +118,41 @@ io.sockets.on("connection", function (socket, pseudo) {
             })
         })
     })
-    socket.on("voteStart",(idElecteur)=>{
+    socket.on("voteStart", (idElecteur) => {
         socket.broadcast.emit("voteStart", idElecteur)
     })
 
-    socket.on("voteFinnish",(idCandidat,carteElecteur)=>{
+    socket.on("voteFinnish", (idCandidat, carteElecteur) => {
         con.connect(() => {
             let sql = "INSERT INTO Votes(voteCandidat) VALUES(?)"
             con.query(sql, [idCandidat], (err, result, field) => {
                 con.connect(() => {
                     let sql = "UPDATE Electeurs SET statusVote = 'oui' WHERE carteElecteur = ?"
                     con.query(sql, [carteElecteur], (err, result, field) => {
+                        console.log(carteElecteur)
                         socket.broadcast.emit("voteFinnish")
                     })
                 })
             })
-        }) 
+        })
+    })
+    socket.on("verifyVote", (data) => {
+        con.connect(() => {
+            let sql = "SELECT *FROM Electeurs WHERE carteElecteur = ? AND statusVote='oui'"
+            con.query(sql, [data], (err, result, field) => {
+                if (result.length > 0) {
+                    socket.emit("dejaVoter",data)
+                } else {
+                    socket.emit("peutVoter",data)
+                }
+            })
+        })
     })
 
-    usb.on("attach",()=>{
+    usb.on("attach", () => {
         io.emit("device")
     })
-    usb.on("detach",()=>{
+    usb.on("detach", () => {
         io.emit("nodevice")
     })
     //serial port
@@ -168,10 +181,9 @@ io.sockets.on("connection", function (socket, pseudo) {
                             let sql = "SELECT *FROM Electeurs WHERE carteElecteur = ?"
                             con.query(sql, [data.toString()], (err, result, field) => {
                                 if (result.length > 0) {
-                                    console.log("appel");
                                     sp.write("cardexist" + 'E')
-                                    io.emit("cardexist",data.toString())
-                                    
+                                    io.emit("cardexist", data.toString())
+
                                 } else {
                                     sp.write("cardok" + 'E')
                                     io.emit("card", data.toString())
@@ -184,10 +196,8 @@ io.sockets.on("connection", function (socket, pseudo) {
                 }
             })
             .catch(err => {
-                console.log(err);
             })
     } else {
-        console.log(sp);
         io.emit("device")
     }
 })

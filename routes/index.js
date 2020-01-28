@@ -9,7 +9,7 @@ const remplacer = methods.remplacer
 const taille = methods.taille
 
 let formidable = require('formidable')
-let nomF, typeF,cheminF,tailleF
+let nomF, typeF, cheminF, tailleF
 
 const crypto = require('crypto');
 
@@ -28,21 +28,21 @@ const con = mysql.createConnection({
 })
 
 router.get('/', function (req, res, next) {
-    res.render('accueil/index', { title: 'Accueil', options : options, host: req.hostname });
+    res.render('accueil/index', { title: 'Accueil', options: options, host: req.hostname });
 });
 router.get('/list', function (req, res, next) {
     con.connect(() => {
         let sql = "SELECT *FROM Electeurs"
         con.query(sql, (err, result, field) => {
             console.log(result);
-            
-            res.render('list/index', { title: 'List',host: req.hostname, list:result });
+
+            res.render('list/index', { title: 'List', host: req.hostname, list: result });
         })
-    }) 
+    })
 });
 
 router.get('/regist', function (req, res, next) {
-    res.render('regist/index', { title: 'Enregistrer',host: req.hostname });
+    res.render('regist/index', { title: 'Enregistrer', host: req.hostname });
 });
 
 
@@ -54,48 +54,51 @@ router.post('/regist/add', (req, res, next) => {
     form.keepExtensions = true;
     form.uploadDir = './public/uploads';
     form.on('fileBegin', function (name, file) {
-        file.name =remplacer(remplacer(remplacer(file.name," ","_"),"-","_"),"–","_")
+        file.name = remplacer(remplacer(remplacer(file.name, " ", "_"), "-", "_"), "–", "_")
         file.path = './public/uploads/' + file.name
     });
 
     form.on('file', function (name, file) {
     });
 
-    form.parse(req,(err, fields, file)=>{
+    form.parse(req, (err, fields, file) => {
         res.redirect("/regist")
     });
 })
 
-router.get("/verify/:carteElecteur",(req,res,next)=>{
+router.get("/verify/:carteElecteur", (req, res, next) => {
     let carteElecteur = req.params.carteElecteur
     con.connect(() => {
         let sql = "SELECT *FROM Electeurs WHERE carteElecteur = ?"
-        con.query(sql,[carteElecteur], (err, result, field) => {
-            res.render('verify/verify', { title: 'Verify',host: req.hostname, electeur:result });
+        con.query(sql, [carteElecteur], (err, result, field) => {
+            res.render('verify/verify', { title: 'Verify', host: req.hostname, electeur: result });
         })
-    }) 
+    })
 })
 
-router.get("/verify",(req,res,next)=>{
-    res.render('verify/index', { title: 'Verify',host: req.hostname });
+router.get("/verify", (req, res, next) => {
+    res.render('verify/index', { title: 'Verify', host: req.hostname });
 })
 
-router.get("/vote",(req,res,next)=>{
+router.get("/vote", (req, res, next) => {
     con.connect(() => {
         let sql = "SELECT *FROM Candidats"
         con.query(sql, (err, result, field) => {
-            res.render('vote/index', { title: 'Vote',host: req.hostname, candidats : result });
+            res.render('vote/index', { title: 'Vote', host: req.hostname, candidats: result });
         })
-    }) 
+    })
 })
 
-router.get("/stats",(req,res,next)=>{
+router.get("/stats", (req, res, next) => {
     con.connect(() => {
         let sql = "SELECT *FROM Electeurs WHERE statusVote='oui'"
         con.query(sql, (err, result, field) => {
-            res.render('statistiques/index', { title: 'Stats',host: req.hostname, votes : result.length });
+            let sql2 = "SELECT COUNT(*) As H FROM Electeurs WHERE sexeElecteur = ?"
+            con.query(sql2,["M"], (err, result2, field) => {
+                res.render('statistiques/index', { title: 'Stats', host: req.hostname, votes: result.length, nbH : result2[0].H, nbF : result.length - result2[0].H });
+            })
         })
-    }) 
+    })
 })
 
 module.exports = router;

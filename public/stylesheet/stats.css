@@ -4,7 +4,9 @@
     background-attachment: fixed;
     background-image: url("/images/carte.gif");
 }
-
+#nbVotants{
+    font-size: 200px !important;
+}
 #temps{
     position: absolute;
     bottom: 0px;
@@ -16,4 +18,9 @@
     position: absolute;
     left: 16cm;
     top: 21cm;
+}
+
+.stats{
+    position: absolute;
+    top: 7cm;
 }
