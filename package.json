@@ -17,7 +17,7 @@
     "formidable": "^1.2.1",
     "http-errors": "~1.6.2",
     "i": "^0.3.6",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "lora": "^0.2.2",
     "morgan": "~1.9.0",
     "multer": "^1.4.1",
