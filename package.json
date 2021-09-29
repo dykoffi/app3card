@@ -16,7 +16,7 @@
     "express-session": "^1.16.1",
     "formidable": "^1.2.1",
     "http-errors": "~1.6.2",
-    "i": "^0.3.6",
+    "i": "^0.3.7",
     "jquery": "^3.4.1",
     "lora": "^0.2.2",
     "morgan": "~1.9.0",
